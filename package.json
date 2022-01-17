@@ -4,7 +4,7 @@
   "description": "fast-cli",
   "main": "index.js",
   "bin": {
-    "h": "./bin/h.js"
+    "apace": "./bin/apace.js"
   },
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
