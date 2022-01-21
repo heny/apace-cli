@@ -1,2 +1,4 @@
-export const APP_NAME = 'hcli';
-export const PROJECT_BASE_PATH = process.cwd();
+import path from 'path';
+
+export const APP_NAME = 'apace-cli';
+export const TEMPLATE_CDR_PATH = path.resolve(__dirname, '../../', 'template');

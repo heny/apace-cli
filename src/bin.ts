@@ -4,6 +4,8 @@ import boxen from 'boxen';
 import { APP_NAME } from './common/constant';
 import { getLatestVersion } from './utils';
 
+import { registerCommand as init } from './init';
+
 const program = new Command();
 
 async function showVersion() {
@@ -27,11 +29,14 @@ async function showVersion() {
 }
 
 function registerCommand() {
-  program.name('hcli').usage('<command> [options]');
+  program.name('apace').usage('<command> [options]');
 
   program
     .option('-h, --help', '显示帮助', () => program.help())
-    .option('-v, --version', '显示版本', showVersion);
+    .option('-v, --version', '显示版本', showVersion)
+    .action(function () {});
+
+  init(program);
 
   program.parse(process.argv);
 }
