@@ -1,23 +1,62 @@
-import { Command } from 'commander';
-import fs from 'fs-extra';
-import glob from 'fast-glob';
-import path from 'path';
-import chalk from 'chalk';
-import prompts from 'prompts';
-import { TEMPLATE_CDR_PATH } from './common/constant';
+#!/usr/bin/env node
+const { Command } = require('commander');
+const chalk = require('chalk');
+const boxen = require('boxen');
+const fs = require('fs-extra');
+const glob = require('fast-glob');
+const path = require('path');
+const prompts = require('prompts');
+const execa = require('execa');
 
-export function registerCommand(program: Command) {
+const program = new Command();
+const TEMPLATE_CDR_PATH = path.join(__dirname, './template');
+const APP_NAME = 'apace-cli';
+
+async function getLatestVersion(name) {
+  const originInfo = await execa(`npm view ${name} --registry https://registry.npmjs.org/ --json`);
+  return JSON.parse(originInfo.stdout)['dist-tags'].latest;
+}
+
+async function showVersion() {
+  const { version } = require('./package.json');
+  let latestVersion = await getLatestVersion(APP_NAME);
+
+  console.log(version);
+  if (latestVersion) {
+    if (latestVersion !== version) {
+      console.log(
+        boxen(`available ${chalk.red(version)} → ${chalk.green(latestVersion)}.`, {
+          padding: 1,
+          align: 'center',
+          borderColor: 'yellow',
+          title: 'Update',
+          titleAlignment: 'center',
+        })
+      );
+    }
+  }
+}
+
+function registerCommand() {
+  program.name('apace').usage('<command> [options]');
+
+  program
+    .option('-h, --help', '显示帮助', () => program.help())
+    .option('-v, --version', '显示版本', showVersion)
+    .action(function () {});
+
   program
     .command('init [name]')
     .description('初始化项目')
     .action((name) => {
       init(name);
     });
+
+  program.parse(process.argv);
 }
 
 async function init(name = '') {
   let templateList = getTemplateList();
-  console.log(name, 'name');
   let { templateName, projectName = name } = await prompts(
     [
       {
@@ -62,7 +101,7 @@ async function init(name = '') {
 }
 
 function getTemplateList() {
-  const templateList: string[] = [];
+  const templateList = [];
   const templatePath = TEMPLATE_CDR_PATH;
   const files = fs.readdirSync(templatePath);
   files.forEach((file) => {
@@ -74,3 +113,5 @@ function getTemplateList() {
   });
   return templateList;
 }
+
+registerCommand();
