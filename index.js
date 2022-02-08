@@ -7,35 +7,11 @@ const glob = require('fast-glob');
 const path = require('path');
 const prompts = require('prompts');
 const execa = require('execa');
+const ora = require('ora');
 
 const program = new Command();
 const TEMPLATE_CDR_PATH = path.join(__dirname, './template');
 const APP_NAME = 'apace-cli';
-
-async function getLatestVersion(name) {
-  const originInfo = await execa(`npm view ${name} --registry https://registry.npmjs.org/ --json`);
-  return JSON.parse(originInfo.stdout)['dist-tags'].latest;
-}
-
-async function showVersion() {
-  const { version } = require('./package.json');
-  let latestVersion = await getLatestVersion(APP_NAME);
-
-  console.log(version);
-  if (latestVersion) {
-    if (latestVersion !== version) {
-      console.log(
-        boxen(`available ${chalk.red(version)} → ${chalk.green(latestVersion)}.`, {
-          padding: 1,
-          align: 'center',
-          borderColor: 'yellow',
-          title: 'Update',
-          titleAlignment: 'center',
-        })
-      );
-    }
-  }
-}
 
 function registerCommand() {
   program.name('apace').usage('<command> [options]');
@@ -55,7 +31,36 @@ function registerCommand() {
   program.parse(process.argv);
 }
 
+async function getLatestVersion(name) {
+  const originInfo = await execa(`npm view ${name} --registry https://registry.npmjs.org/ --json`);
+  return JSON.parse(originInfo.stdout)['dist-tags'].latest;
+}
+
+async function showVersion(show = true) {
+  const spinner = ora('Loading...').start();
+  const { version } = require('./package.json');
+  let latestVersion = await getLatestVersion(APP_NAME);
+  spinner.stop();
+
+  if (show) console.log(version);
+  if (latestVersion) {
+    if (latestVersion !== version) {
+      console.log(
+        boxen(`available ${chalk.red(version)} → ${chalk.green(latestVersion)}.`, {
+          padding: 1,
+          align: 'center',
+          borderColor: 'yellow',
+          title: 'Update',
+          titleAlignment: 'center',
+        })
+      );
+    }
+  }
+}
+
 async function init(name = '') {
+  await showVersion(false);
+
   let templateList = getTemplateList();
   let { templateName, projectName = name } = await prompts(
     [
@@ -80,6 +85,7 @@ async function init(name = '') {
   glob
     .sync(['*', '**'], {
       onlyFiles: false,
+      dot: true,
       cwd: templatePath.replace(/\\/g, '/'),
     })
     .forEach((file) => {

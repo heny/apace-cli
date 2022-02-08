@@ -1,6 +1,6 @@
 {
   "name": "apace-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "fast-cli",
   "main": "index.js",
   "bin": {
@@ -33,6 +33,7 @@
     "fast-glob": "^3.2.11",
     "fs-extra": "^10.0.0",
     "module-alias": "^2.2.2",
+    "ora": "^5.4.1",
     "prompts": "^2.4.2"
   },
   "devDependencies": {
