@@ -46,13 +46,17 @@ async function showVersion(show = true) {
   if (latestVersion) {
     if (latestVersion !== version) {
       console.log(
-        boxen(`available ${chalk.red(version)} → ${chalk.green(latestVersion)}.`, {
-          padding: 1,
-          align: 'center',
-          borderColor: 'yellow',
-          title: 'Update',
-          titleAlignment: 'center',
-        })
+        boxen(
+          `available ${chalk.red(version)} → ${chalk.green(latestVersion)}.
+use ${chalk.green('npm i -g apace-cli')} to install.`,
+          {
+            padding: 1,
+            align: 'center',
+            borderColor: 'yellow',
+            title: 'Update',
+            titleAlignment: 'center',
+          }
+        )
       );
     }
   }
