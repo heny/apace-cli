@@ -1,6 +1,6 @@
 {
   "name": "apace-cli",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "fast-cli",
   "main": "index.js",
   "bin": {
