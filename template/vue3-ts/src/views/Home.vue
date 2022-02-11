@@ -5,9 +5,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted } from 'vue'
 import { useMainStore } from '@/store/main'
-import { storeToRefs } from 'pinia'
 import { getData } from '@/api/demo'
 
 onMounted(() => {

@@ -1,16 +1,9 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+<script lang="ts" setup>
+import Logo from '@/assets/logo.svg?component'
 </script>
-
 <template>
   <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="./assets/logo.svg"
-      width="125"
-      height="125"
-    />
+    <Logo alt="Vue logo" class="logo" />
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
@@ -45,6 +38,8 @@ header {
 .logo {
   display: block;
   margin: 0 auto 2rem;
+  width: 125px;
+  height: 125px;
 }
 
 a,
