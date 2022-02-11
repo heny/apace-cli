@@ -6,6 +6,7 @@ import { wrapperEnv } from './build/utils'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import { VueUseComponentsResolver } from 'unplugin-vue-components/resolvers'
 import OptimizationPersist from 'vite-plugin-optimize-persist'
 import PkgConfig from 'vite-plugin-package-config'
@@ -39,14 +40,14 @@ export default defineConfig((env) => {
          * UI组件库参考
          * https://github.com/antfu/unplugin-vue-components/blob/main/src/core/resolvers/antdv.ts
          */
-        resolvers: [],
+        resolvers: [NaiveUiResolver()],
       }),
       Components({
         dts: 'src/components.d.ts',
         dirs: ['src/components/'],
         // 哪些文件需要自动按需引入
         extensions: ['vue'],
-        resolvers: [VueUseComponentsResolver()],
+        resolvers: [VueUseComponentsResolver(), NaiveUiResolver()],
       }),
       // styleImport({
       //   resolves: [ElementPlusResolve()],

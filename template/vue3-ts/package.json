@@ -46,9 +46,6 @@
     "optimizeDeps": {
       "include": [
         "axios",
-        "element-plus/es",
-        "element-plus/es/components/button/style/css",
-        "element-plus/es/components/row/style/css",
         "nprogress",
         "pinia",
         "vue",
