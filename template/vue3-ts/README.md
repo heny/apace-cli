@@ -8,7 +8,10 @@
 - svg引入组件
 
 ## 增加UI组件库
-### 增加 Element-Plus 组件库
+下面以`element-plus`为例，直接配置按需引入即可，其他组件库也是如此
+其他支持按需引入的组件库：
+https://github.com/antfu/unplugin-vue-components/blob/main/src/core/resolvers/index.ts
+
 1. 安装
 ```bash
 pnpm add element-plus

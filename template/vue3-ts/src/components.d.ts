@@ -10,8 +10,6 @@ declare module 'vue' {
     IconEcosystem: typeof import('./components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./components/icons/IconTooling.vue')['default']
-    NButton: typeof import('naive-ui')['NButton']
-    NSpace: typeof import('naive-ui')['NSpace']
     Welcome: typeof import('./components/Welcome.vue')['default']
     WelcomeItem: typeof import('./components/WelcomeItem.vue')['default']
   }

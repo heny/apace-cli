@@ -46,6 +46,7 @@
     "optimizeDeps": {
       "include": [
         "axios",
+        "naive-ui",
         "nprogress",
         "pinia",
         "vue",
