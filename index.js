@@ -98,9 +98,12 @@ async function init(name = '') {
       fs.copySync(filePath, targetPath);
     });
 
+  const packageJson = JSON.parse(
+    fs.readFileSync(path.join(process.cwd(), projectName, 'package.json'))
+  );
   fs.writeFileSync(
     `${projectName}/package.json`,
-    JSON.stringify({ name: projectName, version: '0.0.1' })
+    JSON.stringify({ ...packageJson, name: projectName, version: '0.0.1' })
   );
 
   console.log(`
