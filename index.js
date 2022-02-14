@@ -19,6 +19,7 @@ function registerCommand() {
   program
     .option('-h, --help', '显示帮助', () => program.help())
     .option('-v, --version', '显示版本', showVersion)
+    .option('-y, --yes', '自动安装依赖')
     .action(function () {});
 
   program
@@ -63,8 +64,6 @@ use ${chalk.green('npm i -g apace-cli')} to install.`,
 }
 
 async function init(name = '') {
-  await showVersion(false);
-
   let templateList = getTemplateList();
   let { templateName, projectName = name } = await prompts(
     [
@@ -91,6 +90,7 @@ async function init(name = '') {
       onlyFiles: false,
       dot: true,
       cwd: templatePath.replace(/\\/g, '/'),
+      ignore: ['node_modules', 'package-lock.json'],
     })
     .forEach((file) => {
       const filePath = path.join(templatePath, file);
@@ -103,14 +103,14 @@ async function init(name = '') {
   );
   fs.writeFileSync(
     `${projectName}/package.json`,
-    JSON.stringify({ ...packageJson, name: projectName, version: '0.0.1' })
+    JSON.stringify({ ...packageJson, name: projectName, version: '0.0.1' }, null, 2)
   );
 
   console.log(`
-    项目初始化完成，请进入项目安装依赖
-        ${chalk.cyan(`cd ${projectName}`)}
-        ${chalk.cyan('npm i')}
-  `);
+      项目初始化完成，请进入项目安装依赖
+          ${chalk.cyan(`cd ${projectName}`)}
+          ${chalk.cyan('npm i')}
+    `);
 }
 
 function getTemplateList() {
