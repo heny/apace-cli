@@ -23,8 +23,6 @@ const templateList = [
   },
 ]
 
-const resolve = (...args) => path.resolve(__dirname, ...args)
-
 function downloadRepoSync(repo, dest, options = {}) {
   return new Promise((resolve, reject) => {
     downloadRepo(repo, dest, options, (err) => {
@@ -107,13 +105,16 @@ async function init(name = '') {
     await downloadRepoSync(`heny/${templateName}`, projectName)
   } catch (err) {
     spinner.fail()
-    console.log(err, '失败了')
+    console.log(err)
+    console.log(chalk.red('下载模板失败，请重新尝试！'))
     process.exit(0)
   } finally {
     spinner.stop()
   }
 
-  const packageJson = JSON.parse(fs.readFileSync(resolve(projectName, 'package.json')))
+  const packageJson = JSON.parse(
+    fs.readFileSync(path.join(process.cwd(), projectName, 'package.json'))
+  )
 
   fs.writeFileSync(
     `${projectName}/package.json`,
